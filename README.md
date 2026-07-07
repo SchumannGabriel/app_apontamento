@@ -1,17 +1,70 @@
-# registro_producao_app_v2
+# App Apontamento
 
-A new Flutter project.
+Sistema de apontamento de produção industrial desenvolvido em Flutter, com backend em Firebase (Firestore).
 
-## Getting Started
+## Sobre o projeto
 
-This project is a starting point for a Flutter application.
+Aplicativo para controle de chão de fábrica, permitindo que operadores registrem o apontamento de produção por setor, ordem de fabricação (OF) e quantidade produzida em tempo real.
 
-A few resources to get you started if this is your first Flutter project:
+## Funcionalidades
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Seleção de setor e operador
+- Abertura de ordem de fabricação (OF) com meta de produção
+- Contador de produção em tempo real, sincronizado com o Firestore
+- Finalização de apontamento com confirmação
+- Suporte a operação offline com fila de sincronização
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tecnologias
+
+- Flutter
+- Firebase (Cloud Firestore, Firebase Auth)
+- Dart
+
+## Estrutura do projeto
+
+```text
+lib/
+  main.dart
+  models/
+    apontamento.dart
+  screens/
+    home_screen.dart
+    order_input_screen.dart
+    order_screen.dart
+    production_screen.dart
+    confirm_screen.dart
+  services/
+    api_service.dart
+    connectivity_service.dart
+    offline_queue_service.dart
+  theme/
+    app_theme.dart
+    widgets.dart
+  widgets/
+    quantity_selector.dart
+```
+
+## Configuração
+
+Este repositório não inclui as credenciais do Firebase (firebase_options.dart, google-services.json, firestore.rules, etc.), por questões de segurança.
+
+Para rodar o projeto localmente:
+
+1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/)
+2. Instale o FlutterFire CLI e gere seu próprio arquivo de configuração:
+
+```bash
+flutterfire configure
+```
+
+3. Configure as regras do Firestore de acordo com sua necessidade
+4. Rode o projeto:
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Status
+
+Projeto em desenvolvimento ativo.
