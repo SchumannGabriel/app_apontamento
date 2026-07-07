@@ -54,7 +54,7 @@ class _ProductionScreenState extends State<ProductionScreen> {
     docId = doc.id;
   }
 
-  // ✅ ADICIONAR — salva atualizado_em
+  // 
   void adicionar() {
     if (quantidade < widget.meta) {
       setState(() => quantidade++);
@@ -65,13 +65,13 @@ class _ProductionScreenState extends State<ProductionScreen> {
             .doc(docId)
             .update({
           'quantidade': quantidade,
-          'atualizado_em': Timestamp.now(), // ✅ CORRIGIDO
+          'atualizado_em': Timestamp.now(), 
         });
       }
     }
   }
 
-  // ✅ REMOVER — salva atualizado_em
+  // 
   void remover() {
     if (quantidade > 0) {
       setState(() => quantidade--);
@@ -82,13 +82,13 @@ class _ProductionScreenState extends State<ProductionScreen> {
             .doc(docId)
             .update({
           'quantidade': quantidade,
-          'atualizado_em': Timestamp.now(), // ✅ CORRIGIDO
+          'atualizado_em': Timestamp.now(), 
         });
       }
     }
   }
 
-  // ✅ FINALIZAR — salva finalizado_em (era 'fim')
+  //  FINALIZAR — salva finalizado_em 
   Future<void> finalizar() async {
     if (quantidade < widget.meta) {
       final ok = await showDialog(
@@ -121,8 +121,8 @@ class _ProductionScreenState extends State<ProductionScreen> {
           .doc(docId)
           .update({
         'status': 'finalizado',
-        'finalizado_em': Timestamp.now(), // ✅ ERA 'fim', CORRIGIDO
-        'atualizado_em': Timestamp.now(), // ✅ ATUALIZA TAMBÉM
+        'finalizado_em': Timestamp.now(), 
+        'atualizado_em': Timestamp.now(), 
       });
     }
 
