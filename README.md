@@ -14,6 +14,28 @@ Aplicativo para controle de chão de fábrica, permitindo que operadores registr
 - Finalização de apontamento com confirmação
 - Suporte a operação offline com fila de sincronização
 
+## Screenshots
+
+### 1. Login
+Seleção de setor e funcionário para entrar no sistema.
+
+<img src="docs/screenshots/tela_1_1.jpeg" width="250"/> <img src="docs/screenshots/tela_1_2.jpeg" width="250"/>
+
+### 2. Iniciar Produção
+Abertura da Ordem de Fabricação (OF) com definição da meta.
+
+<img src="docs/screenshots/tela_2_1.jpeg" width="250"/> <img src="docs/screenshots/tela_2_2.jpeg" width="250"/>
+
+### 3. Apontamento em tempo real
+Contador de produção com indicador de progresso até a meta ser atingida.
+
+<img src="docs/screenshots/tela_3_1.jpeg" width="200"/> <img src="docs/screenshots/tela_3_2.jpeg" width="200"/> <img src="docs/screenshots/tela_3_3.jpeg" width="200"/>
+
+### 4. Confirmação
+Revisão dos dados antes de finalizar o apontamento.
+
+<img src="docs/screenshots/tela_4_1.jpeg" width="250"/>
+
 ## Tecnologias
 
 - Flutter
