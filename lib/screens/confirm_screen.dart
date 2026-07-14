@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'order_input_screen.dart'; // IMPORTANTE
+import 'order_input_screen.dart';
 import '../theme/app_theme.dart';
 import '../theme/widgets.dart';
 
 class ConfirmScreen extends StatefulWidget {
   final String ordem;
+  final String codigoProduto; 
   final int quantidade;
   final int meta;
   final String funcionario;
@@ -15,6 +16,7 @@ class ConfirmScreen extends StatefulWidget {
   const ConfirmScreen({
     super.key,
     required this.ordem,
+    required this.codigoProduto, 
     required this.quantidade,
     required this.meta,
     required this.funcionario,
@@ -35,6 +37,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
       await FirebaseFirestore.instance.collection('apontamentos').add({
         'ordem': widget.ordem,
+        'codigo_produto': widget.codigoProduto, 
         'quantidade': widget.quantidade,
         'meta': widget.meta,
         'funcionario': widget.funcionario,
@@ -51,7 +54,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         ),
       );
 
-      ///  VOLTA PRA TELA DE ORDEM (mantém operador)
+      /// VOLTA PRA TELA DE ORDEM (mantém operador)
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -74,7 +77,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   }
 
   void cancelar() {
-    ///  VOLTA PRA PRODUÇÃO (mantém dados)
+    /// VOLTA PRA PRODUÇÃO (mantém dados)
     Navigator.pop(context);
   }
 
@@ -128,8 +131,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           _item('Funcionário', widget.funcionario, Icons.badge_outlined),
                           _item('Setor', widget.setor, Icons.factory_outlined),
                           _item('OF', widget.ordem, Icons.qr_code_2_outlined),
-                          _item('Produzido', widget.quantidade.toString(),
-                              Icons.inventory_2_outlined),
+                          _item('Cód. Produto', widget.codigoProduto, Icons.inventory_2_outlined), // ← novo
+                          _item('Produzido', widget.quantidade.toString(), Icons.check_circle_outline),
                           _item('Meta', widget.meta.toString(), Icons.flag_outlined),
                         ],
                       ),
@@ -157,7 +160,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     TextButton(
                       onPressed: loading ? null : cancelar,
                       child: Text('Cancelar', style: AppText.label),
-                    )
+                    ),
                   ],
                 ),
               ),

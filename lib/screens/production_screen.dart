@@ -9,6 +9,7 @@ class ProductionScreen extends StatefulWidget {
   final String funcionario;
   final String funcionarioId;
   final String ordem;
+  final String codigoProduto; 
   final int meta;
 
   const ProductionScreen({
@@ -17,6 +18,7 @@ class ProductionScreen extends StatefulWidget {
     required this.funcionario,
     required this.funcionarioId,
     required this.ordem,
+    required this.codigoProduto, 
     required this.meta,
   });
 
@@ -26,7 +28,6 @@ class ProductionScreen extends StatefulWidget {
 
 class _ProductionScreenState extends State<ProductionScreen> {
   int quantidade = 0;
-
   String? docId;
 
   int get falta => widget.meta - quantidade;
@@ -45,6 +46,7 @@ class _ProductionScreenState extends State<ProductionScreen> {
       'funcionario': widget.funcionario,
       'setor': widget.setor,
       'ordem': widget.ordem,
+      'codigo_produto': widget.codigoProduto, 
       'meta': widget.meta,
       'quantidade': 0,
       'status': 'em andamento',
@@ -54,41 +56,36 @@ class _ProductionScreenState extends State<ProductionScreen> {
     docId = doc.id;
   }
 
-  // 
   void adicionar() {
     if (quantidade < widget.meta) {
       setState(() => quantidade++);
-
       if (docId != null) {
         FirebaseFirestore.instance
             .collection('producao_ativa')
             .doc(docId)
             .update({
           'quantidade': quantidade,
-          'atualizado_em': Timestamp.now(), 
+          'atualizado_em': Timestamp.now(),
         });
       }
     }
   }
 
-  // 
   void remover() {
     if (quantidade > 0) {
       setState(() => quantidade--);
-
       if (docId != null) {
         FirebaseFirestore.instance
             .collection('producao_ativa')
             .doc(docId)
             .update({
           'quantidade': quantidade,
-          'atualizado_em': Timestamp.now(), 
+          'atualizado_em': Timestamp.now(),
         });
       }
     }
   }
 
-  //  FINALIZAR — salva finalizado_em 
   Future<void> finalizar() async {
     if (quantidade < widget.meta) {
       final ok = await showDialog(
@@ -111,7 +108,6 @@ class _ProductionScreenState extends State<ProductionScreen> {
           ],
         ),
       );
-
       if (ok != true) return;
     }
 
@@ -121,8 +117,8 @@ class _ProductionScreenState extends State<ProductionScreen> {
           .doc(docId)
           .update({
         'status': 'finalizado',
-        'finalizado_em': Timestamp.now(), 
-        'atualizado_em': Timestamp.now(), 
+        'finalizado_em': Timestamp.now(),
+        'atualizado_em': Timestamp.now(),
       });
     }
 
@@ -134,6 +130,7 @@ class _ProductionScreenState extends State<ProductionScreen> {
           funcionario: widget.funcionario,
           funcionarioId: widget.funcionarioId,
           ordem: widget.ordem,
+          codigoProduto: widget.codigoProduto, 
           quantidade: quantidade,
           meta: widget.meta,
         ),
@@ -157,12 +154,12 @@ class _ProductionScreenState extends State<ProductionScreen> {
                 child: Column(
                   children: [
 
-                    ///  CRACHÁ DO OPERADOR
+                    /// CRACHÁ DO OPERADOR
                     OperatorBadge(nome: widget.funcionario, setor: widget.setor),
 
                     const SizedBox(height: 16),
 
-                    ///  OF
+                    /// OF + CÓDIGO DO PRODUTO
                     AppCard(
                       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                       child: Row(
@@ -176,6 +173,14 @@ class _ProductionScreenState extends State<ProductionScreen> {
                               Text(
                                 'OF ${widget.ordem}',
                                 style: AppText.title.copyWith(fontSize: 20),
+                              ),
+                              const SizedBox(height: 6),
+                              Text('CÓD. PRODUTO', style: AppText.eyebrow),
+                              const SizedBox(height: 2),
+                              Text(
+                                widget.codigoProduto,
+                                style: AppText.body.copyWith(
+                                    fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -197,12 +202,12 @@ class _ProductionScreenState extends State<ProductionScreen> {
 
                     const SizedBox(height: 16),
 
-                    ///  CONTADOR MECÂNICO (elemento assinatura)
+                    /// CONTADOR
                     DigitalCounterPanel(quantidade: quantidade, meta: widget.meta),
 
                     const SizedBox(height: 20),
 
-                    ///  BOTÕES +/-
+                    /// BOTÕES +/-
                     Row(
                       children: [
                         Expanded(
@@ -225,7 +230,7 @@ class _ProductionScreenState extends State<ProductionScreen> {
 
                     const SizedBox(height: 28),
 
-                    ///  FINALIZAR
+                    /// FINALIZAR
                     PrimaryButton(
                       label: 'FINALIZAR',
                       icon: Icons.check_circle_outline,

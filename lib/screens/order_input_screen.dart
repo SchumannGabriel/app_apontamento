@@ -21,15 +21,22 @@ class OrderInputScreen extends StatefulWidget {
 }
 
 class _OrderInputScreenState extends State<OrderInputScreen> {
-  final ordemController = TextEditingController();
-  final metaController = TextEditingController();
+  final ordemController        = TextEditingController();
+  final codigoProdutoController = TextEditingController();
+  final metaController         = TextEditingController();
 
   void continuar() {
-    final ordem = ordemController.text;
-    final meta = int.tryParse(metaController.text);
+    final ordem          = ordemController.text.trim();
+    final codigoProduto  = codigoProdutoController.text.trim();
+    final meta           = int.tryParse(metaController.text);
 
     if (ordem.isEmpty) {
       _erro('Informe a OF');
+      return;
+    }
+
+    if (codigoProduto.isEmpty) {
+      _erro('Informe o Código do Produto');
       return;
     }
 
@@ -46,6 +53,7 @@ class _OrderInputScreenState extends State<OrderInputScreen> {
           funcionario: widget.funcionario,
           funcionarioId: widget.funcionarioId,
           ordem: ordem,
+          codigoProduto: codigoProduto,
           meta: meta,
         ),
       ),
@@ -75,7 +83,7 @@ class _OrderInputScreenState extends State<OrderInputScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
 
-                    ///  LOGO
+                    /// LOGO
                     SizedBox(
                       height: 120,
                       child: Image.asset(
@@ -86,12 +94,12 @@ class _OrderInputScreenState extends State<OrderInputScreen> {
 
                     const SizedBox(height: 20),
 
-                    ///  CRACHÁ DO OPERADOR
+                    /// CRACHÁ DO OPERADOR
                     OperatorBadge(nome: widget.funcionario, setor: widget.setor),
 
                     const SizedBox(height: 24),
 
-                    ///  CARD
+                    /// CARD
                     AppCard(
                       child: Column(
                         children: [
@@ -109,14 +117,14 @@ class _OrderInputScreenState extends State<OrderInputScreen> {
 
                           const SizedBox(height: 22),
 
-                          ///  OF
+                          /// OF
                           TextField(
                             controller: ordemController,
                             keyboardType: TextInputType.number,
                             maxLength: 9,
                             style: AppText.body,
                             inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly, // só números
+                              FilteringTextInputFormatter.digitsOnly,
                             ],
                             decoration: appInputDecoration(
                               label: 'Ordem de Fabricação (OF)',
@@ -128,13 +136,28 @@ class _OrderInputScreenState extends State<OrderInputScreen> {
 
                           const SizedBox(height: 18),
 
-                          ///  META
+                          /// CÓDIGO DO PRODUTO
+                          TextField(
+                            controller: codigoProdutoController,
+                            keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.characters,
+                            style: AppText.body,
+                            decoration: appInputDecoration(
+                              label: 'Código do Produto',
+                              hint: 'Ex: ABC-1234',
+                              icon: Icons.inventory_2_outlined,
+                            ),
+                          ),
+
+                          const SizedBox(height: 18),
+
+                          /// META
                           TextField(
                             controller: metaController,
                             keyboardType: TextInputType.number,
                             style: AppText.body,
                             inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly, //  só números
+                              FilteringTextInputFormatter.digitsOnly,
                             ],
                             decoration: appInputDecoration(
                               label: 'A Produzir',
@@ -148,7 +171,7 @@ class _OrderInputScreenState extends State<OrderInputScreen> {
 
                     const SizedBox(height: 32),
 
-                    ///  BOTÃO
+                    /// BOTÃO
                     PrimaryButton(
                       label: 'INICIAR',
                       icon: Icons.play_arrow_rounded,
